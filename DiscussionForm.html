@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Discussion Forum</title>
+  <link rel="stylesheet" href="styles4.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="CourseCatalog.html">Course Catalog</a></li>
+        <li><a href="Enroll.html">Enroll</a></li>
+        <li><a href="Quiz.html">Assessment</a></li>
+        <li><a href="DiscussionForm.html">Discussion</a></li>
+      </ul>
+    </nav>
+  </header>
+  
+  <main>
+    <section id="discussion-form">
+      <h1>Discussion Forum</h1>
+      <form id="post-discussion-form" onsubmit="postDiscussion(event)">
+        <label for="discussion-topic">Discussion Topic:</label>
+        <input type="text" id="discussion-topic" name="discussion-topic" required>
+        <label for="discussion-content">Discussion Content:</label>
+        <textarea id="discussion-content" name="discussion-content" rows="5" required></textarea>
+        <button type="submit">Post Discussion</button>
+      </form>
+      <div id="discussion-list">
+        
+      </div>
+    </section>
+  </main>
+
+  <script>
+    function postDiscussion(event) {
+      event.preventDefault();
+      
+      const topic = document.getElementById('discussion-topic').value;
+      const content = document.getElementById('discussion-content').value;
+
+     
+      const discussionItem = document.createElement('div');
+
+      
+      const topicElement = document.createElement('h3');
+      topicElement.textContent = topic;
+      discussionItem.appendChild(topicElement);
+
+      
+      const contentElement = document.createElement('p');
+      contentElement.textContent = content;
+      discussionItem.appendChild(contentElement);
+
+      
+      document.getElementById('discussion-list').appendChild(discussionItem);
+
+      
+      document.getElementById('post-discussion-form').reset();
+    }
+  </script>
+</body>
+</html>

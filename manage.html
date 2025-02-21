@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage Course</title>
+  <link rel="stylesheet" href="manage.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="CourseCatalog.html">Course Catalog</a></li>
+        <li><a href="Enroll.html">Enroll</a></li>
+        <li><a href="Quiz.html">Assessment</a></li>
+        <li><a href="DiscussionForm.html">Discussion</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <form id="courseForm">
+      <label for="courseName">Course Name:</label>
+      <input type="text" id="courseName" name="courseName" required>
+      
+      <label for="price">Price:</label>
+      <input type="number" id="price" name="price" required>
+      
+      <label for="duration">Duration:</label>
+      <input type="text" id="duration" name="duration" required>
+    
+      <label for="courseDetailPage">Course Detail Page:</label>
+      <input type="text" id="courseDetailPage" name="courseDetailPage" required>
+      
+      <button type="submit">Add Course</button>
+    </form>
+    
+  </main>
+
+  <script>
+    document.getElementById('courseForm').addEventListener('submit', async function(event) {
+  event.preventDefault();
+
+  const courseName = document.getElementById('courseName').value;
+  const price = document.getElementById('price').value;
+  const duration = document.getElementById('duration').value;
+  const courseDetailPage = document.getElementById('courseDetailPage').value;
+
+  try {
+    const response = await fetch('http://localhost:3000/courses/add', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+      },
+      body: JSON.stringify({ courseName, price, duration, courseDetailPage }),
+    });
+
+    const result = await response.json();
+
+    if (response.ok) {
+      alert('Course added successfully');
+      fetchCourses(); 
+    } else {
+      alert('Failed to add course: ' + result.error);
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    alert('An error occurred while adding the course');
+  }
+});
+
+
+  </script>
+</body>
+</html>
+

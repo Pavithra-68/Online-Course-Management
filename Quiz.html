@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+    <link rel="stylesheet" href="styles3.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="CourseCatalog.html">Course Catalog</a></li>
+                <li><a href="Enroll.html">Enroll</a></li>
+                <li><a href="Quiz.html">Assessment</a></li>
+                <li><a href="DiscussionForm.html">Discussion</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1>Quiz</h1>
+
+        <div id="quiz-container">
+            <div class="question">
+                <h3>1. What does HTML stands for?</h3>
+                <ul>
+                    <li>
+                        <input type="radio" id="q1-option1" name="q1" value="0">
+                        <label for="q1-option1">Hyper Text Markup Language</label>
+                    </li>
+                    <li>
+                        <input type="radio" id="q1-option2" name="q1" value="1">
+                        <label for="q1-option2">Home Tool Markup Language</label>
+                    </li>
+                    <li>
+                        <input type="radio" id="q1-option3" name="q1" value="2">
+                        <label for="q1-option3">Hyperlinks and Text Markup Language</label>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="question">
+                <h3>2. Which Property is used to change the background color of an element?</h3>
+                <ul>
+                    <li>
+                        <input type="radio" id="q2-option1" name="q2" value="0">
+                        <label for="q2-option1">color</label>
+                    </li>
+                    <li>
+                        <input type="radio" id="q2-option2" name="q2" value="1">
+                        <label for="q2-option2">bgcolor</label>
+                    </li>
+                    <li>
+                        <input type="radio" id="q2-option3" name="q2" value="2">
+                        <label for="q2-option3">background-color</label>
+                    </li>
+                </ul>
+            </div>
+            <div class="question">
+                <h3>3. Which of the folowing is a JavaScript data type?</h3>
+                <ul>
+                    <li>
+                        <input type="radio" id="q3-option1" name="q3" value="0">
+                        <label for="q3-option1">XML</label>
+                    </li>
+                    <li>
+                        <input type="radio" id="q3-option2" name="q3" value="1">
+                        <label for="q3-option2">JSON</label>
+                    </li>
+                    <li>
+                        <input type="radio" id="q3-option3" name="q3" value="2">
+                        <label for="q3-option3">Number</label>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="question">
+                <h3>4. Which protocol is used to transfer web pages on the Internet?</h3>
+                <ul>
+                    <li>
+                        <input type="radio" id="q4-option1" name="q4" value="0">
+                        <label for="q4-option1">FTP</label>
+                    </li>
+                    <li>
+                        <input type="radio" id="q4-option2" name="q4" value="1">
+                        <label for="q4-option2">HTTP</label>
+                    </li>
+                    <li>
+                        <input type="radio" id="q4-option3" name="q4" value="2">
+                        <label for="q4-option3">SMTP</label>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="question">
+                <h3>5. What does CSS stands for?</h3>
+                <ul>
+                    <li>
+                        <input type="radio" id="q5-option1" name="q5" value="0">
+                        <label for="q5-option1">Computer Style Sheets</label>
+                    </li>
+                    <li>
+                        <input type="radio" id="q5-option2" name="q5" value="1">
+                        <label for="q5-option2">Cascading Style Sheets</label>
+                    </li>
+                    <li>
+                        <input type="radio" id="q5-option3" name="q5" value="2">
+                        <label for="q5-option3">Creative Style Sheets</label>
+                    </li>
+                </ul>
+            </div>
+
+            
+        </div>
+
+        <button onclick="submitQuiz()">Submit Quiz</button>
+    </div>
+
+    <script>
+        function submitQuiz() {
+            const score = calculateScore();
+            alert(`Your score: ${score} out of 5`);
+        }
+
+        function calculateScore() {
+            let score = 0;
+
+            
+            const q1SelectedOption = document.querySelector('input[name="q1"]:checked');
+            if (q1SelectedOption && parseInt(q1SelectedOption.value) === 0) {
+                score++;
+            }
+
+            const q2SelectedOption = document.querySelector('input[name="q2"]:checked');
+            if (q2SelectedOption && parseInt(q2SelectedOption.value) === 2) {
+                score++;
+            }
+            const q3SelectedOption = document.querySelector('input[name="q3"]:checked');
+            if (q3SelectedOption && parseInt(q3SelectedOption.value) === 2) {
+                score++;
+            }
+            const q4SelectedOption = document.querySelector('input[name="q4"]:checked');
+            if (q4SelectedOption && parseInt(q4SelectedOption.value) === 1) {
+                score++;
+            }
+            const q5SelectedOption = document.querySelector('input[name="q5"]:checked');
+            if (q5SelectedOption && parseInt(q5SelectedOption.value) === 1) {
+                score++;
+            }
+
+            return score;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enroll in Courses</title>
+  <link rel="stylesheet" href="styles2.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="CourseCatalog.html">Course Catalog</a></li>
+        <li><a href="Enroll.html">Enroll</a></li>
+        <li><a href="Quiz.html">Assessment</a></li>
+        <li><a href="DiscussionForm.html">Discussion</a></li>
+      </ul>
+    </nav>
+  </header>
+  
+  <main>
+    <section id="enrollment-list">
+      <h2>Enrolled Courses</h2>
+      <ul id="enrolled-courses"></ul>
+    </section>
+
+    <section id="course-list">
+      <h2>Available Courses</h2>
+      <ul>
+        <li>
+          Introduction to Programming
+          <button onclick="enroll('Introduction to Programming', 1)">Enroll</button>
+        </li>
+        <li>
+          Web Development Fundamentals
+          <button onclick="enroll('Web Development Fundamentals', 2)">Enroll</button>
+        </li>
+        <li>
+          Introduction to HTML
+          <button onclick="enroll('Introduction to HTML', 3)">Enroll</button>
+        </li>
+        <li>
+          Introduction to Python Programming
+          <button onclick="enroll('Introduction to Python Programming', 4)">Enroll</button>
+        </li>
+        <li>
+          Fundamentals of C Programming
+          <button onclick="enroll('Fundamentals of C Programming', 5)">Enroll</button>
+        </li>
+        <li>
+          Learn Java Programming
+          <button onclick="enroll('Learn Java Programming', 6)">Enroll</button>
+        </li>
+        <li>
+          FullStack Development
+          <button onclick="enroll('FullStack Development', 7)">Enroll</button>
+        </li>
+        <li>
+          Digital Marketing
+          <button onclick="enroll('Digital Marketing', 8)">Enroll</button>
+        </li>
+      </ul>
+    </section>
+  </main>
+
+  <script>
+    const userId = 1; 
+
+    document.addEventListener('DOMContentLoaded', () => {
+      fetchEnrolledCourses();
+    });
+
+    async function enroll(courseName, courseId) {
+      try {
+        
+        const alreadyEnrolled = await checkIfEnrolled(courseName);
+        if (alreadyEnrolled) {
+          alert('You are already enrolled in this course');
+          return;
+        }
+
+        const response = await fetch('http://localhost:3000/enroll', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ courseName, userId }),
+        });
+
+        if (response.ok) {
+          alert('Enrolled successfully');
+          fetchEnrolledCourses();
+        } else {
+          const result = await response.json();
+          alert('Failed to enroll: ' + result.error);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred while enrolling in the course');
+      }
+    }
+
+    async function fetchEnrolledCourses() {
+      try {
+        const response = await fetch(`http://localhost:3000/enrolled-courses?userId=${userId}`);
+        const courses = await response.json();
+
+        const enrolledCourses = document.getElementById('enrolled-courses');
+        enrolledCourses.innerHTML = ''; 
+
+        courses.forEach(course => {
+          const listItem = document.createElement('li');
+          listItem.textContent = course.courseName;
+          enrolledCourses.appendChild(listItem);
+        });
+      } catch (error) {
+        console.error('Error fetching enrolled courses:', error);
+      }
+    }
+
+    async function checkIfEnrolled(courseName) {
+      try {
+        const response = await fetch(`http://localhost:3000/enrolled-courses?userId=${userId}`);
+        const courses = await response.json();
+        
+        return courses.some(course => course.courseName === courseName);
+      } catch (error) {
+        console.error('Error checking enrolled courses:', error);
+        return false;
+      }
+    }
+  </script>
+
+</body>
+</html>

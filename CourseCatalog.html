@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Course Catalog</title>
+  <link rel="stylesheet" href="styles1.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="CourseCatalog.html">Course Catalog</a></li>
+        <li><a href="Enroll.html">Enroll</a></li>
+        <li><a href="Quiz.html">Assessment</a></li>
+        <li><a href="DiscussionForm.html">Discussion</a></li>
+        
+        <li class="manage-button"><a onclick="location.href='manage.html';">Manage</a></li>
+      </ul>
+    </nav>
+    <div id="search-bar">
+      <input type="text" placeholder="Search courses...">
+      <button type="button">Search</button>
+    </div>
+  </header>
+  
+  <section id="course-list">
+  
+  </section>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      fetchCourses();
+    });
+
+    async function fetchCourses() {
+      try {
+        const response = await fetch('http://localhost:3000/courses');
+        const courses = await response.json();
+
+        const courseList = document.getElementById('course-list');
+        courseList.innerHTML = ''; 
+
+        courses.forEach(course => {
+          const courseCard = document.createElement('div');
+          courseCard.className = 'course-card';
+          courseCard.innerHTML = `
+            <h2>${course.courseName}</h2>
+            <p>Price: $${course.price}</p>
+            <p>Duration: ${course.duration} weeks</p>
+            <a href="${course.courseDetailPage}">View Details</a>
+          `;
+          courseList.appendChild(courseCard);
+        });
+
+        
+        const addCourseForm = document.getElementById('courseForm');
+        addCourseForm.reset(); 
+      } catch (error) {
+        console.error('Error fetching courses:', error);
+      }
+    }
+
+    document.getElementById('courseForm').addEventListener('submit', async function(event) {
+      event.preventDefault();
+
+      const courseName = document.getElementById('courseName').value;
+      const price = document.getElementById('price').value;
+      const duration = document.getElementById('duration').value;
+      const courseDetailPage = document.getElementById('courseDetailPage').value;
+
+      try {
+        const response = await fetch('http://localhost:3000/courses/add', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+          },
+          body: JSON.stringify({ courseName, price, duration, courseDetailPage }),
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          alert('Course added successfully');
+          fetchCourses(); 
+        } else {
+          alert('Failed to add course: ' + result.error);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred while adding the course');
+      }
+    });
+  </script>
+</body>
+</html>
